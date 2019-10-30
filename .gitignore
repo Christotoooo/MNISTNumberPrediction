@@ -1,2 +1,4 @@
 test_max_x
 train_max_x
+*.csv
+.DS_Store
