@@ -7,7 +7,7 @@ train_images = pd.read_pickle('train_max_x')
 test_images = pd.read_pickle('test_max_x')
 
 
-# this is the vectorization that we use
+# this one sets all black bits as 1 and other bits as 0, this is the vectorization that we use
 def simple_process():
     vectors = []
     for i in range(len(train_images)):
@@ -17,16 +17,24 @@ def simple_process():
                     train_images[i][j][k] = 0
                 else:
                     train_images[i][j][k] = 1
-        print(train_images[i].shape)
-        np.savetxt("result1.csv", train_images[i], delimiter=",")
         vectors.append(train_images[i].flatten())
-        print(vectors[i].shape)
-        np.savetxt("result2.csv", vectors[i], delimiter=",")
     return vectors
 
 
-# this one splits the image into three digits, and is not used
-def preprocess():
+# this one keeps the rgb of each bit and normalizes the colour into a range[0,1], not used
+def zero_process():
+    vectors = []
+    for i in range(len(train_images)):
+        for i in range(len(train_images)):
+            for j in range(len(train_images[0])):
+                for k in range(len(train_images[0][0])):
+                    train_images[i][j][k] /= 255.0
+        vectors.append(train_images[i].flatten())
+    return vectors
+
+
+# this one splits the image into three digits and keeps each matrix, not used
+def complete_process():
     coord = []
     result = []
     # dif = 0
