@@ -2,10 +2,11 @@ from sklearn.cluster import KMeans
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import random
 
 train_images = pd.read_pickle('train_max_x')
 test_images = pd.read_pickle('test_max_x')
-train_images = shuffle(train_images)
+#train_images = shuffle(train_images)
 train_images_test = train_images[-10000:]  #reserved for validation
 train_images = train_images[:-10000]
 
