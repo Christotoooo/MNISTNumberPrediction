@@ -7,8 +7,8 @@ import random
 train_images = pd.read_pickle('train_max_x')
 test_images = pd.read_pickle('test_max_x')
 #train_images = shuffle(train_images)
-train_images_test = train_images[-10000:]  #reserved for validation
-train_images = train_images[:-10000]
+# train_images_test = train_images[-10000:]  #reserved for validation
+# train_images = train_images[:-10000]
 
 # this one sets all black bits as 1 and other bits as 0, this is the vectorization that we use
 def simple_process():

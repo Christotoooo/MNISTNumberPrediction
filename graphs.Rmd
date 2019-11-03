@@ -1,0 +1,43 @@
+---
+title: "graphing"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+```{r}
+install.packages("treemapify")
+
+```
+```{r}
+library(ggplot2)
+library(tidyverse)
+library(dplyr)
+library(treemapify)
+
+value <- c(13452,10621,8866,6184,4223,3171,1991,1029,421,42)
+
+number <- c("9","8","7","6","5","4","3","2","1","0")
+
+tb <- tibble(x=number,y=value)
+tb
+
+
+ggplot(tb, aes(area = y, fill = x)) + geom_treemap() + scale_fill_viridis_d()
+ggsave("treemap.png")
+
+```
+
+
+
+
+
+
+
+
+
+
