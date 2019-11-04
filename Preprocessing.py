@@ -1,39 +1,68 @@
 from sklearn.cluster import KMeans
 import numpy as np
 import pandas as pd
+import tensorflow as tf
+from tensorflow.python import keras
+# from keras import utils
+from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 import random
 
 train_images = pd.read_pickle('train_max_x')
 test_images = pd.read_pickle('test_max_x')
-#train_images = shuffle(train_images)
+train_labels = pd.read_csv('/content/drive/My Drive/Colab Notebooks/data/train_max_y.csv').to_numpy()[:, 1]
+# train_images = shuffle(train_images)
 # train_images_test = train_images[-10000:]  #reserved for validation
 # train_images = train_images[:-10000]
 
+
 # this one sets all black bits as 1 and other bits as 0, this is the vectorization that we use
 def simple_process():
-    vectors = []
-    for i in range(len(train_images)):
-        for j in range(len(train_images[0])):
-            for k in range(len(train_images[0][0])):
-                if not int(train_images[i][j][k]) == 255:
-                    train_images[i][j][k] = 0
-                else:
-                    train_images[i][j][k] = 1
-        vectors.append(train_images[i].flatten())
-    return vectors
+    x_train, x_val, y_train, y_val = train_test_split(train_images, train_labels, test_size=0.2, random_state=42, stratify=train_labels)
+    x_train = x_train.reshape(x_train.shape[0], 128, 128, 1)
+    x_val = x_val.reshape(x_val.shape[0], 128, 128, 1)
+    x_train = x_train.astype('int')
+    x_val = x_val.astype('int')
+    x_train = x_train // 255
+    x_val = x_train // 255
+    y_train = keras.utils.to_categorical(y_train, 10)
+    y_val = keras.utils.to_categorical(y_val, 10)
+
+# def simple_process():
+#     vectors = []
+#     for i in range(len(train_images)):
+#         for j in range(len(train_images[0])):
+#             for k in range(len(train_images[0][0])):
+#                 if not int(train_images[i][j][k]) == 255:
+#                     train_images[i][j][k] = 0
+#                 else:
+#                     train_images[i][j][k] = 1
+#         vectors.append(train_images[i].flatten())
+#     return vectors
 
 
 # this one keeps the rgb of each bit and normalizes the colour into a range[0,1], not used
 def zero_process():
-    vectors = []
-    for i in range(len(train_images)):
-        for i in range(len(train_images)):
-            for j in range(len(train_images[0])):
-                for k in range(len(train_images[0][0])):
-                    train_images[i][j][k] /= 255.0
-        vectors.append(train_images[i].flatten())
-    return vectors
+    x_train, x_val, y_train, y_val = train_test_split(train_images, train_labels, test_size=0.2, random_state=42, stratify=train_labels)
+    x_train = x_train.reshape(x_train.shape[0], 128, 128, 1)
+    x_val = x_val.reshape(x_val.shape[0], 128, 128, 1)
+    x_train = x_train.astype('float32')
+    x_val = x_val.astype('float32')
+    x_train /= 255
+    x_val /= 255
+    y_train = keras.utils.to_categorical(y_train, 10)
+    y_val = keras.utils.to_categorical(y_val, 10)
+
+
+# def zero_process():
+#     vectors = []
+#     for i in range(len(train_images)):
+#         for i in range(len(train_images)):
+#             for j in range(len(train_images[0])):
+#                 for k in range(len(train_images[0][0])):
+#                     train_images[i][j][k] /= 255.0
+#         vectors.append(train_images[i].flatten())
+#     return vectors
 
 
 # this one splits the image into three digits and keeps each matrix, not used
