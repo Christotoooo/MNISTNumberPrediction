@@ -39,5 +39,41 @@ ggsave("treemap.png")
 
 
 
+```{r}
+
+library(ggplot2)
+library(tidyverse)
+library(dplyr)
+library(treemapify)
+
+value <- c(13452,13452,13452,13452,13452,13452,13452,13452,13452,13452)
+
+number <- c("9","8","7","6","5","4","3","2","1","0")
+
+tb <- tibble(x=number,y=value)
+tb
+
+
+ggplot(tb, aes(area = y, fill = x)) + geom_treemap() + scale_fill_viridis_d()
+ggsave("treemap2.png")
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
